@@ -112,7 +112,9 @@ module Crewait
   
   module ArrayMethods
     def to_crewait_sql
-    	self.collect {|x| "(#{x.collect{|x| x.nil? ? 'NULL' : "#{ActiveRecord::Base.sanitize(x)}"}.join(', ')})" }
+      # self.collect {|x| "(#{x.collect{|x| x.nil? ? 'NULL' : "#{ActiveRecord::Base.sanitize(x)}"}.join(', ')})" }
+      # Update for Rails 5.1
+      self.collect {|x| "(#{x.collect{|x| x.nil? ? 'NULL' : "#{ActiveRecord::Base.connection.quote(x)}"}.join(', ')})" }
     end
   end
 end
